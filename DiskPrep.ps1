@@ -1,0 +1,3 @@
+﻿#Prepare all currently raw disks for use using their maximum available sizes.
+Get-Disk | Where-Object {($_.OperationalStatus -EQ 'Offline' -and $_.PartitionStyle -eq 'RAW')} | Set-Disk -IsReadOnly $False #addresses an issue that occurs when mounting a disk in Hyper-V occasionally.
+Get-Disk | Where-Object PartitionStyle -eq 'RAW' | Initialize-Disk -PartitionStyle GPT -PassThru | New-Partition -UseMaximumSize -AssignDriveLetter | Format-Volume -FileSystem ReFS
